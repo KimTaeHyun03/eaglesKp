@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+.title {
+}
+.loginBtn {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}
