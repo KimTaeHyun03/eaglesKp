@@ -2,15 +2,19 @@ import './../css/permisson.css';
 import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import {useSelector,useDispatch} from 'react-redux';
+
+import { access } from './../store';
 
 let Permisson = () => {
   let [id, setId] = useState('');
   let [pw, setPw] = useState('');
-  let [permisson,setPermisson] = useState(false);
   let [ruleAdd,setRuleAdd] = useState(false);
   
-  let navigate = useNavigate();
+  let accessValue = useSelector((state) => state.permissonAccess.value);
   
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
   
   let permissonChk = async () => {
     try {
@@ -22,13 +26,16 @@ let Permisson = () => {
         }
       );
       alert(response.data);
-      setPermisson(true);
+      dispatch(access());
     } catch (error) {
       console.error('오류 발생:', error);
       alert('실패: ' + error.message);
     }
   };
   
+  let showBtn = ()=>{
+    setRuleAdd(true);
+  }
   
   return (
     <div className='permissonLogin'>
@@ -48,17 +55,21 @@ let Permisson = () => {
       ></input>
       <button onClick={permissonChk} >로그인</button>
       {
-        permisson ? <button onClick={()=>{
-          setRuleAdd(true);
-        }} >규칙 추가</button> : null
+        accessValue ? <button onClick={showBtn} >규칙 추가</button> : null
       }
       {/*
         ruleadd가 트루이면
         RuleAdd컴포넌트페이지로 이동
        */}
+       <div>
       {
         ruleAdd ? navigate('./ruleAdd') : null
       }
+      </div>
+      <div>
+        {accessValue ? 'true' : 'false'}
+      </div>
+      
     </div>
   );
 };

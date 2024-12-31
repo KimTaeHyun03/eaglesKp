@@ -1,0 +1,19 @@
+.tableBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;margin: 30px;
+  
+}
+
+.table{
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 90vw;
+  
+}
+.table th{
+  border: 2px solid black;
+}
+.table td{
+  border: 1px solid black;
+}
