@@ -61,6 +61,15 @@ registerRoute(
   })
 );
 
+
+
+self.addEventListener('install', (event) => {
+  self.skipWaiting(); // 새 서비스 워커가 대기하지 않고 즉시 활성화
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim()); // 활성화된 서비스 워커가 즉시 제어
+});
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener('message', (event) => {
