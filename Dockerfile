@@ -1,17 +1,14 @@
 FROM node:18
 
-# 작업 디렉터리 설정
+# 작업 디렉토리 설정
 WORKDIR /app
 
-# 서버 종속성 설치 (캐싱 최적화)
+# 서버 종속성 설치
 COPY package.json package-lock.json ./
 RUN npm install
 
-# 클라이언트 의존성 설치 및 빌드 (캐싱 최적화)
-COPY client/package.json client/package-lock.json ./client/
-RUN npm install --prefix client
-COPY client ./client
-RUN npm run build --prefix client
+# 빌드된 클라이언트 복사
+COPY client/build ./client/build
 
 # 나머지 서버 코드 복사
 COPY . .

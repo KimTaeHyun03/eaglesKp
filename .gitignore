@@ -10,8 +10,6 @@ client.pnp.js
 # 테스트
 client/coverage
 
-# 빌드
-client/build
 
 # 기타
 client/.DS_Store
