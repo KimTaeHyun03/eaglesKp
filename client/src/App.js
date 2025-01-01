@@ -15,7 +15,16 @@ function App() {
     <div className='App'>
       <TopBar />
       <Routes>
-        <Route path='/' element={<> <Ra /><Role/><Cook/></>} />
+        <Route
+          path='/'
+          element={
+            <>
+              <Ra />
+              <Role />
+              <Cook />
+            </>
+          }
+        />
         <Route path='/permisson' element={<Permisson />} />
         <Route path='/permisson/ruleAdd' element={<RuleAdd />} />
       </Routes>
