@@ -22,7 +22,7 @@ let Ra = () => {
         return;
       }
 
-      let response = await axios.post('https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/dataUpdate', {
+      let response = await axios.post(`${process.env.REACT_APP_API_URL}api/dataUpdate`, {
         
         sendIndex: index,
         sendField: field, // 선택한 필드 (예: '정' 또는 '부')
@@ -32,7 +32,7 @@ let Ra = () => {
       if (response.status === 200) {
         alert('성공적으로 업데이트되었습니다.');
         // 데이터를 다시 가져옴
-        const updatedRoles = await axios.get('https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/raGet');
+        const updatedRoles = await axios.get(`${process.env.REACT_APP_API_URL}api/raGet`);
         setRole(updatedRoles.data);
 
         // 상태 초기화
@@ -52,7 +52,7 @@ let Ra = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get('https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/raGet');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}api/raGet`);
         setRole(response.data);
         setLoading(false); // 데이터 로딩이 끝나면 로딩 상태 업데이트
       } catch (error) {

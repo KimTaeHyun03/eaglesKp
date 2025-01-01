@@ -16,7 +16,7 @@ let Role = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get('https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/roleGet');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}api/roleGet`);
         setRole(response.data);
         setLoading(false);
       } catch (error) {
@@ -35,7 +35,7 @@ let Role = () => {
         return;
       }
 
-      const response = await axios.post('https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/roleUpdate', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}api/roleUpdat`, {
         sendIndex: index,
         sendValue: value, // 입력된 새 값
       });
@@ -43,7 +43,7 @@ let Role = () => {
       if (response.status === 200) {
         alert('업데이트 성공');
         // 데이터를 다시 가져옴
-        const updatedRoles = await axios.get('https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/roleGet');
+        const updatedRoles = await axios.get(`${process.env.REACT_APP_API_URL}api/roleGet`);
         setRole(updatedRoles.data);
 
         // 상태 초기화
