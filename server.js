@@ -12,13 +12,11 @@ const app = express();
 const PORT = process.env.PORT || 3030;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
+let url = process.env.MONGO_URI
 let permisson = JSON.parse(process.env.PERMISSON);
 
 // MongoDB 연결
 let db;
-let url =
-  'mongodb+srv://admin:rlaxogus0421@eagleskp.tc3ce.mongodb.net/?retryWrites=true&w=majority';
 new MongoClient(url)
   .connect()
   .then(client => {
@@ -56,7 +54,7 @@ app.get('/api/insert', async (req, res) => {
     ];
 
     const collection = db.collection(RA);
-    const result = await collection.updateMany(ra);
+    const result = await collection.insertMany(ra);
 
     const Role = 'Role'; // 컬렉션 이름 지정
     let role = [
@@ -169,13 +167,16 @@ app.get('/api/insert', async (req, res) => {
 // GET 요청으로 컬렉션 삭제
 app.get('/api/delete', async (req, res) => {
   try {
-    const RA = 'RA'; // 삭제할 컬렉션 이름
-
+    let RA = 'RA'; // 삭제할 컬렉션 이름
+    let Role ='Role';
+    let COOK ='COOK'
     const collection = db.collection(RA);
-
+    const collection1 = db.collection(Role);
+    const collection2 = db.collection(COOK);
     // 컬렉션 삭제
     const result = await collection.drop();
-
+    const result1 = await collection1.drop();
+    const result2 = await collection2.drop();
     if (result) {
       res.status(200).json({
         message: `컬렉션 '${RA}'가 성공적으로 삭제되었습니다.`
@@ -228,6 +229,80 @@ app.get('/api/cookGet', async (req,res)=>{
     res.status(500).json({ error: '데이터 조회 실패' });
   }
 });
+
+
+app.post('/api/dataUpdate', async (req, res) => {
+  const { sendIndex, sendField, sendValue } = req.body;
+
+  if (!sendIndex || !sendField || !sendValue) {
+    res.status(400).send('모든 데이터를 입력해야 합니다.');
+    return;
+  }
+
+  try {
+    // 업데이트 쿼리
+    const result = await db.collection('RA').updateOne(
+      { 구역: sendIndex }, // 필터 조건
+      { $set: { [sendField]: sendValue } } // 업데이트 내용
+    );
+
+    if (result.matchedCount > 0) {
+      res.status(200).send('업데이트 성공');
+    } else {
+      res.status(404).send('구역을 찾을 수 없습니다.');
+    }
+  } catch (error) {
+    console.error('업데이트 실패:', error);
+    res.status(500).send('서버 오류');
+  }
+});
+
+app.post('/api/roleUpdate', async (req, res) => {
+  const { sendIndex, sendValue } = req.body;
+
+  try {
+    const result = await db.collection('Role').updateOne(
+      { 구역: sendIndex }, // 구역으로 문서 찾기
+      { $set: { 담당: sendValue } } // 담당 필드 업데이트
+    );
+
+    if (result.modifiedCount > 0) {
+      res.status(200).send('업데이트 성공');
+    } else {
+      res.status(400).send('업데이트 실패');
+    }
+  } catch (error) {
+    console.error('업데이트 중 오류:', error);
+    res.status(500).send('서버 오류');
+  }
+});
+
+
+// 데이터 업데이트 API
+app.post('/api/cookUpdate', async (req, res) => {
+  const { sendIndex, sendValue } = req.body;
+
+  if (!sendIndex || !sendValue) {
+    return res.status(400).send('필요한 데이터가 누락되었습니다.');
+  }
+
+  try {
+    const result = await db.collection('COOK').updateOne(
+      { 역할: sendIndex }, // 역할을 기준으로 문서 찾기
+      { $set: { 담당자: sendValue } } // 담당자 필드 업데이트
+    );
+
+    if (result.modifiedCount > 0) {
+      res.status(200).send('업데이트 성공');
+    } else {
+      res.status(404).send('업데이트 실패: 해당 역할을 찾을 수 없습니다.');
+    }
+  } catch (error) {
+    console.error('업데이트 중 오류:', error);
+    res.status(500).send('업데이트 중 서버 오류 발생');
+  }
+});
+
 
 //권한 획득 api
 app.post('/api/permissonChk', (req, res) => {

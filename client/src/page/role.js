@@ -1,53 +1,89 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './../css/tableStyle.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-let Ra = () => {
+let Role = () => {
   let [loading, setLoading] = useState(true);
   let [role, setRole] = useState([]);
   let [index, setIndex] = useState(null);
+  let [value, setValue] = useState(''); // 수정할 값
+  let [trigger, setTrigger] = useState(false); // 수정창 표시 여부
 
   let accessValue = useSelector(state => state.permissonAccess.value);
 
+  // 데이터 가져오기
   useEffect(() => {
     const fetchRoles = async () => {
       try {
         const response = await axios.get('http://localhost:3030/api/roleGet');
         setRole(response.data);
-        setLoading(false); // 데이터 로딩이 끝나면 로딩 상태 업데이트
+        setLoading(false);
       } catch (error) {
         console.error('데이터 가져오기 실패:', error);
-        setLoading(false); // 에러 발생 시에도 로딩 상태를 false로 설정
+        setLoading(false);
       }
     };
     fetchRoles();
-  }, []); // 빈 배열로 설정하여 컴포넌트가 처음 렌더링될 때만 실행
+  }, []);
+
+  // 데이터 업데이트
+  const update = async () => {
+    try {
+      if (!value) {
+        alert('값을 입력하세요!');
+        return;
+      }
+
+      const response = await axios.post('http://localhost:3030/api/roleUpdate', {
+        sendIndex: index,
+        sendValue: value, // 입력된 새 값
+      });
+
+      if (response.status === 200) {
+        alert('업데이트 성공');
+        // 데이터를 다시 가져옴
+        const updatedRoles = await axios.get('http://localhost:3030/api/roleGet');
+        setRole(updatedRoles.data);
+
+        // 상태 초기화
+        setIndex(null);
+        setValue('');
+        setTrigger(false);
+      } else {
+        alert('업데이트 실패');
+      }
+    } catch (error) {
+      console.error('업데이트 실패:', error);
+      alert('업데이트 중 오류 발생');
+    }
+  };
 
   if (loading) {
-    return <div>로딩 중...</div>; // 로딩 중일 때 표시
+    return <div>로딩 중...</div>;
   }
 
   return (
     <>
-      <div className='tableBox'>
-        <table className='table'>
+      <div className="tableBox">
+        <table className="table">
           <thead>
             <tr>
-              <th>조리시 담당 구역</th>
+              <th>구역</th>
               <th>담당</th>
               {accessValue ? <th>비고</th> : null}
             </tr>
           </thead>
           <tbody>
-            {role.map((role, index) => (
-              <tr key={index}>
-                <td>{role.구역}</td>
-                <td>{role.담당}</td>
+            {role.map((item, idx) => (
+              <tr key={idx}>
+                <td>{item.구역}</td>
+                <td>{item.담당}</td>
                 {accessValue ? (
                   <td
                     onClick={() => {
-                      setIndex(role.구역);
+                      setIndex(item.구역); // 선택된 구역 설정
+                      setTrigger(true); // 수정창 표시
                     }}
                   >
                     수정
@@ -58,9 +94,21 @@ let Ra = () => {
           </tbody>
         </table>
       </div>
-              {index && <div>선택한 구역: {index}</div>}
+
+      {trigger && (
+        <div>
+          <label>{index} 수정:</label>
+          <input
+            type="text"
+            placeholder="새 값을 입력하세요"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button onClick={update}>수정</button>
+        </div>
+      )}
     </>
   );
 };
 
-export default Ra;
+export default Role;
