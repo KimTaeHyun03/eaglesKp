@@ -5,10 +5,11 @@ const savedValue = sessionStorage.getItem('permissonValue');
 
 let permisson = createSlice({
   name: 'permissonAccess',
-  initialState: { value: savedValue === 'true' }, // 세션 저장소 값 복원
+  initialState: { value: savedValue === 'true' ? true : false }, // 기본값 설정
   reducers: {
     access: state => {
       state.value = !state.value;
+      console.log('상태 변경:', state.value); // 디버깅 로그 추가
       sessionStorage.setItem('permissonValue', state.value); // 상태 변경 시 세션 저장소에 저장
     }
   }
