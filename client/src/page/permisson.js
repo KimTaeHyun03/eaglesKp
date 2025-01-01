@@ -21,18 +21,17 @@ let Permisson = () => {
 
   let permissonChk = async () => {
     try {
-      let response = await axios.post(
-        'https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/permissonChk',
+      let response = await axios.post(`${process.env.REACT_APP_API_URL}api/permissonChk`,
         {
           sendId: id,
           sendPw: pw,
           sendAccessValue: accessValue
         }
       );
-      if (!accessValue) {
+      if (response.status===200 && !accessValue) {
         alert(response.data);
         dispatch(access());
-      } else {
+      } else if (response.status===201 && accessValue) {
         dispatch(access());
       }
     } catch (error) {
