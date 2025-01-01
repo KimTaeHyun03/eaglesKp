@@ -21,7 +21,7 @@ let Permisson = () => {
   let permissonChk = async () => {
     try {
       let response = await axios.post(
-        'http://localhost:3030/api/permissonChk',
+        'https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/api/permissonChk',
         {
           sendId: id,
           sendPw: pw
