@@ -2,6 +2,8 @@
 node_modules/
 .env
 
+!.env.development
+!.env.production
 # React 관련 (client 폴더)
 client/node_modules/
 client/.pnp

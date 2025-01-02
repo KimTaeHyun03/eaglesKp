@@ -308,11 +308,14 @@ app.post('/api/cookUpdate', async (req, res) => {
 app.post('/api/permissonChk', (req, res) => {
   let sendPermisson = req.body;
   if (
+    !sendPermisson.sendAccessValue && 
     permisson.permissonId === sendPermisson.sendId &&
     permisson.permissonPw === sendPermisson.sendPw
   ) {
     res.status(200).send('권한 획득 성공');
-  } else {
+  } else if (sendPermisson.sendAccessValue){
+    res.status(201).send('로그아웃 버튼으로 변경');
+  }else {
     res.status(401).send('권한 획득 실패');
   }
 });
