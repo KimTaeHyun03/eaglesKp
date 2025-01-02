@@ -1,50 +1,19 @@
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-}
-.title {
-}
-.loginBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.loginBtn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 15px;
-  background-color: rgba(0,0,0,0.1);
-  color: #00000;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  white-space: nowrap;
-}
-
-.loginBtn a {
-  text-decoration: none;
-  color: black;
-}
-
-.titleLink {
-  border: none;
-  color: black;
-  text-decoration: none;
+/* 전체 화면 스타일 */
+.App {
+  font-family: Arial, sans-serif;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* 메뉴 버튼 스타일 */
 .menu-button {
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 20px;
   z-index: 1000;
-  background-color: rgba(0,0,0,0.1);
-  color: #00000;
+  background-color: #007bff;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -65,10 +34,12 @@
   padding: 20px;
   box-sizing: border-box;
 }
+
 /* 사이드 메뉴가 열릴 때 스타일 */
 .side-menu.open {
   left: 0;
 }
+
 /* 오버레이 기본 스타일 */
 .overlay {
   position: fixed;
