@@ -31,7 +31,10 @@ let Permisson = () => {
       if (response.status===200 && !accessValue) {
         alert(response.data);
         dispatch(access());
+        setId('');
+        setPw('');
       } else if (response.status===201 && accessValue) {
+        alert('로그아웃 되었습니다.');
         dispatch(access());
       }
     } catch (error) {
@@ -53,7 +56,7 @@ let Permisson = () => {
           setLogin('로그인');
         }
       } catch (error) {
-        console.error('데이터 가져오기 실패:', error);
+        console.error(error);
       }
     };
     changeLoginout();
@@ -70,6 +73,7 @@ let Permisson = () => {
         onChange={e => {
           setId(e.target.value);
         }}
+        value={id}
       ></input>
       <input
         type='password'
@@ -77,6 +81,7 @@ let Permisson = () => {
         onChange={e => {
           setPw(e.target.value);
         }}
+        value={pw}
       ></input>
       <button onClick={permissonChk}>{login}</button>
       {accessValue ? <button onClick={showBtn}>규칙 추가</button> : null}
