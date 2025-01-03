@@ -35,7 +35,7 @@ let Role = () => {
         return;
       }
 
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}api/roleUpdat`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}api/roleUpdate`, {
         sendIndex: index,
         sendValue: value, // 입력된 새 값
       });
