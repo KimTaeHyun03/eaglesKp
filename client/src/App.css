@@ -12,10 +12,3 @@ html, body {
   background-color: var(--background-color);
   color: var(--text-color);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #ffffff; /* 다크 모드에서도 흰색 유지 */
-    --text-color: #000000;       /* 텍스트도 동일하게 유지 */
-  }
-}
