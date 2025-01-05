@@ -88,3 +88,8 @@
   opacity: 1;
   visibility: visible;
 }
+
+.ladderMenuP {
+  background-color: rgba(0,0,0,0.3);
+  
+}

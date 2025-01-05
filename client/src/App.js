@@ -9,6 +9,9 @@ import RuleAdd from './page/ruleAdd.js';
 import Ra from './page/ra.js';
 import Role from './page/role.js';
 import Cook from './page/cook.js';
+import Ladder from './page/ladder.js';
+import Install from './page/install.js';
+
 //앱 컴포넌트
 function App() {
   return (
@@ -19,6 +22,7 @@ function App() {
           path='/'
           element={
             <>
+              <Install/>
               <Ra />
               <Role />
               <Cook />
@@ -27,6 +31,7 @@ function App() {
         />
         <Route path='/permisson' element={<Permisson />} />
         <Route path='/permisson/ruleAdd' element={<RuleAdd />} />
+        <Route path='/ladder' element={<Ladder />} />
       </Routes>
     </div>
   );
