@@ -40,8 +40,11 @@ let TopBar = () => {
         <h2>MENU</h2>
         <p className='ladderMenuP' onClick={()=>{
           setIsMenuOpen(!isMenuOpen);
-          navigate('/ladder');
-        }} >사다리타기 조짜기</p>
+          navigate('/group');
+        }} >조짜기</p>
+        <p>조리 순번. 화부조.홀.아래 순번 정하는거 업데이트 예정</p>
+        <p>관리관님이 지적사항 있는 구역 체크시 푸시알림뜨는 기능 할수있으면 업데이트 예정</p>
+        
         
       </div>
       
