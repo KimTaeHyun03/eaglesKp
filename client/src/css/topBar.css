@@ -64,6 +64,7 @@
   z-index: 999;
   padding: 20px;
   box-sizing: border-box;
+  overflow-y: scroll;
 }
 /* 사이드 메뉴가 열릴 때 스타일 */
 .side-menu.open {
@@ -91,5 +92,22 @@
 
 .ladderMenuP {
   background-color: rgba(0,0,0,0.3);
+  
+}
+
+.notice {
+  border: 1px solid black;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.help{
+  border: 1px solid black;
+}
+.link{
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.link a{
+  text-decoration: none;
+  color: black;
   
 }

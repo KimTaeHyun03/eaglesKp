@@ -44,7 +44,7 @@ let Permisson = () => {
   };
 
   let showBtn = () => {
-    setRuleAdd(true);
+    navigate("/");
   };
   
   useEffect(() => {
@@ -84,7 +84,7 @@ let Permisson = () => {
         value={pw}
       ></input>
       <button onClick={permissonChk}>{login}</button>
-      {accessValue ? <button onClick={showBtn}>규칙 추가</button> : null}
+<button onClick={showBtn}>메인으로 돌아가기</button>
     </div>
   );
 };
