@@ -111,3 +111,15 @@
   color: black;
   
 }
+.androidIos button {
+  padding: 5px;
+  margin: 10px;
+  width: 100px;
+  height: 30px;
+}
+/* CSS 추가 */
+.urlLink {
+  word-wrap: break-word; /* 긴 단어나 문장이 줄바꿈되도록 설정 */
+  overflow-wrap: break-word; /* 최신 브라우저에서도 줄바꿈이 작동하도록 설정 */
+  white-space: normal; /* 텍스트가 한 줄에 고정되지 않도록 설정 */
+}
