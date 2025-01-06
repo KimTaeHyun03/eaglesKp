@@ -4,18 +4,23 @@ const RedirectToChrome = () => {
   useEffect(() => {
     const redirectUrl =
       "intent://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/#Intent;scheme=https;package=com.android.chrome;end;";
+    const chromePlayStoreUrl =
+      "https://play.google.com/store/apps/details?id=com.android.chrome";
 
     const checkChrome = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
       if (/android/i.test(userAgent)) {
-        // Android Device
-        window.location.href = redirectUrl;
-        setTimeout(() => {
-          // Fallback to Google Play if Chrome is not installed
-          window.location.href =
-            "https://play.google.com/store/apps/details?id=com.android.chrome";
-        }, 2000); // Wait 2 seconds before fallback
+        // Check if Chrome is installed
+        const isChromeInstalled = userAgent.includes("Chrome");
+
+        if (isChromeInstalled) {
+          // Chrome is installed, use intent://
+          window.location.href = redirectUrl;
+        } else {
+          // Chrome is not installed, redirect to Play Store
+          window.location.href = chromePlayStoreUrl;
+        }
       } else if (/iPad|iPhone|iPod/.test(userAgent)) {
         // iOS Device
         if (userAgent.includes("CriOS")) {
@@ -26,7 +31,7 @@ const RedirectToChrome = () => {
           window.location.href = "https://apps.apple.com/app/google-chrome/id535886823";
         }
       } else {
-        // Other Platforms or Unsupported
+        // Unsupported Platform
         alert("This feature requires Google Chrome.");
       }
     };
