@@ -1,7 +1,7 @@
 import './../css/permisson.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 //권한획득 상태 변경하는 리덕스 변경함수
@@ -46,6 +46,7 @@ let Permisson = () => {
   let showBtn = () => {
     navigate('/');
   };
+  
 
   useEffect(() => {
     const changeLoginout = () => {
@@ -82,6 +83,8 @@ let Permisson = () => {
       ></input>
       <button onClick={permissonChk}>{login}</button>
       <button onClick={showBtn}>메인으로 돌아가기</button>
+     {/* <button className='ruleAddBtn'><Link to='/permisson/ruleAdd'>구역 추가</Link></button>
+     */}
       <div className='alert'>
         <h3>주의사항</h3>
         <p>

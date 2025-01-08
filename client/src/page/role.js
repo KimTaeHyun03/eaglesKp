@@ -96,15 +96,19 @@ let Role = () => {
       </div>
 
       {trigger && (
-        <div>
-          <label>{index} 수정:</label>
+        <div className='tableUpdate' >
+          <label>{index}</label>
+          <br/>
           <input
+          className='input'
             type="text"
             placeholder="새 값을 입력하세요"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button onClick={update}>수정</button>
+          <button 
+          className='btn'
+          onClick={update}>수정</button>
         </div>
       )}
     </>

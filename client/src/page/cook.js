@@ -3,6 +3,8 @@ import axios from 'axios';
 import './../css/tableStyle.css';
 import { useSelector } from 'react-redux';
 
+import CurrentDate from './date.js';
+
 let Cook = () => {
   let [loading, setLoading] = useState(true);
   let [role, setRole] = useState([]);
@@ -65,6 +67,7 @@ let Cook = () => {
 
   return (
     <>
+      <CurrentDate></CurrentDate>
       <div className="tableBox">
         <table className="table">
           <thead>
@@ -96,15 +99,19 @@ let Cook = () => {
       </div>
 
       {trigger && (
-        <div>
-          <label>{index} 수정:</label>
+        <div className='tableUpdate'>
+          <label>{index}</label>
+          <br/>
           <input
+          className='input'
             type="text"
             placeholder="새 값을 입력하세요"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button onClick={update}>수정</button>
+          <button 
+          className='btn'
+          onClick={update}>수정</button>
         </div>
       )}
     </>

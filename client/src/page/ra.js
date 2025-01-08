@@ -101,20 +101,28 @@ let Ra = () => {
         </table>
       </div>
       {trigger ? (
-        <div>
+        <div className='tableUpdate'>
           <label>{index}</label>
-          <select value={field} onChange={e => setField(e.target.value)}>
+          <br/>
+          <select
+          className='select'
+          value={field}
+          onChange={e => setField(e.target.value)}>
             <option value='정'>정</option>
             <option value='부'>부</option>
           </select>
           <input
+            className='input'
             type='text'
             placeholder='값을 입력하세요'
             onChange={e => {
               setValue(e.target.value);
             }}
           ></input>
-          <button onClick={update}>수정</button>
+          <button 
+          className='btn'
+          onClick={update}
+          >수정</button>
         </div>
       ) : null}
     </>

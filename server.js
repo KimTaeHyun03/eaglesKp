@@ -38,6 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // GET 요청으로 초기 JSON 데이터 삽입
+{/*
 app.get('/api/insert', async (req, res) => {
   try {
     // 삽입할 데이터 (JSON 형태로 작성)
@@ -163,7 +164,9 @@ app.get('/api/insert', async (req, res) => {
     res.status(500).json({ error: '데이터 삽입 중 오류가 발생했습니다.' });
   }
 });
+*/}
 
+{/*
 // GET 요청으로 컬렉션 삭제
 app.get('/api/delete', async (req, res) => {
   try {
@@ -193,12 +196,13 @@ app.get('/api/delete', async (req, res) => {
     });
   }
 });
+*/}
 
 //요청한 창고관리 데이터 보내주는 api
 app.get('/api/raGet', async (req, res) => {
   try {
     const collection = db.collection('RA'); // 컬렉션 이름
-    const roles = await collection.find({}).toArray();
+    const roles = await collection.find({}).sort('구역',1).toArray();
     res.status(200).json(roles);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -210,7 +214,7 @@ app.get('/api/raGet', async (req, res) => {
 app.get('/api/roleGet', async (req, res) => {
   try {
     const collection = db.collection('Role'); // 컬렉션 이름
-    const roles = await collection.find({}).toArray();
+    const roles = await collection.find({}).sort('구역',1).toArray();
     res.status(200).json(roles);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -222,7 +226,7 @@ app.get('/api/roleGet', async (req, res) => {
 app.get('/api/cookGet', async (req,res)=>{
   try {
     const collection = db.collection('COOK'); // 컬렉션 이름
-    const roles = await collection.find({}).toArray();
+    const roles = await collection.find({}).sort('역할',1).toArray();
     res.status(200).json(roles);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -319,6 +323,48 @@ app.post('/api/permissonChk', (req, res) => {
     res.status(401).send('권한 획득 실패');
   }
 });
+
+//user data
+{/*
+app.get('/api/userinsert', async (req, res) => {
+  try {
+    // 삽입할 데이터 (JSON 형태로 작성)
+    const user = 'user'; // 컬렉션 이름 지정
+    let users = [{
+      입대년월 : '231023',이름:'김학태'
+    },{
+      입대년월 : '231023',이름:'김태현'
+    },{
+      입대년월 : '231023',이름:'민준기'
+    },{
+      입대년월 : '231212',이름:'옥민구'
+    },{
+      입대년월 : '240102',이름:'김민석'
+    },{
+      입대년월 : '240201',이름:'공지원'
+    },{
+      입대년월 : '240811',이름:'한민우'
+    },{
+      입대년월 : '240912',이름:'윤재현'
+    },
+    ];
+
+    const collection = db.collection(user);
+    const result = await collection.insertMany(users);
+    
+res.status(200).json({
+      message: '데이터가 성공적으로 삽입되었습니다!',
+      insertedId: result.insertedId
+    });
+  } catch (error) {
+    console.error('데이터 삽입 오류:', error);
+    res.status(500).json({ error: '데이터 삽입 중 오류가 발생했습니다.' });
+  }
+});
+*/}
+
+
+
 
 // React 정적 파일 제공
 app.use(express.static(path.join(__dirname, 'client/build')));
