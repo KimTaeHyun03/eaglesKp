@@ -166,8 +166,8 @@ app.get('/api/insert', async (req, res) => {
 });
 */}
 
-{/*
 // GET 요청으로 컬렉션 삭제
+{/*
 app.get('/api/delete', async (req, res) => {
   try {
     let RA = 'RA'; // 삭제할 컬렉션 이름
@@ -234,7 +234,19 @@ app.get('/api/cookGet', async (req,res)=>{
   }
 });
 
+//user 데이터 받아오기
+app.get('/api/userGet', async (req,res)=>{
+  try {
+    const collection = db.collection('user'); // 컬렉션 이름
+    const users = await collection.find({}).sort('입대년월',1).toArray();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('데이터 조회 오류:', error);
+    res.status(500).json({ error: '데이터 조회 실패' });
+  }
+});
 
+//RA 업데이트 api
 app.post('/api/dataUpdate', async (req, res) => {
   const { sendIndex, sendField, sendValue } = req.body;
 
@@ -260,7 +272,7 @@ app.post('/api/dataUpdate', async (req, res) => {
     res.status(500).send('서버 오류');
   }
 });
-
+//role 업데이트 api
 app.post('/api/roleUpdate', async (req, res) => {
   const { sendIndex, sendValue } = req.body;
 
@@ -282,7 +294,7 @@ app.post('/api/roleUpdate', async (req, res) => {
 });
 
 
-// 데이터 업데이트 API
+// cook 업데이트 API
 app.post('/api/cookUpdate', async (req, res) => {
   const { sendIndex, sendValue } = req.body;
 
@@ -324,7 +336,7 @@ app.post('/api/permissonChk', (req, res) => {
   }
 });
 
-//user data
+//user data 삽입 api
 {/*
 app.get('/api/userinsert', async (req, res) => {
   try {
@@ -363,7 +375,56 @@ res.status(200).json({
 });
 */}
 
+//user추가와 아이디 관리 api
+app.post('/api/user/add', async (req, res) => {
+  try {
+    console.log('Request received:', req.body);
 
+    const { 이름, 입대년월 } = req.body;
+    const userCollection = db.collection('user');
+
+    console.log('Fetching users with 입대년월:', 입대년월);
+    const users = await userCollection.find({ 입대년월 }).sort({ 고유ID: 1 }).toArray();
+    console.log('Existing users:', users);
+
+    let suffix = 1;
+    if (users.length > 0) {
+      const lastUserId = users[users.length - 1]?.고유ID || "0";
+      suffix = parseInt(lastUserId.slice(-1), 10) + 1;
+    }
+
+    const 고유ID = `${입대년월}${suffix}`;
+    console.log('Generated 고유ID:', 고유ID);
+
+    const newUser = { 이름, 입대년월, 고유ID };
+    const result = await userCollection.insertOne(newUser);
+    console.log('Insert Result:', result);
+
+    res.status(201).json({ message: '사용자가 추가되었습니다.', user: newUser });
+  } catch (error) {
+    console.error('Error adding user:', error);
+    res.status(500).json({ error: '사용자 추가 중 오류가 발생했습니다.' });
+  }
+});
+
+// 사용자 삭제 API
+app.delete('/api/user/delete/:id', async (req, res) => {
+  try {
+    const userId = req.params.id; // 삭제할 사용자 고유ID
+    const userCollection = db.collection('user');
+
+    const result = await userCollection.deleteOne({ 고유ID: userId });
+
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message: '사용자가 삭제되었습니다.' });
+    } else {
+      res.status(404).json({ error: '사용자를 찾을 수 없습니다.' });
+    }
+  } catch (error) {
+    console.error('사용자 삭제 중 오류:', error);
+    res.status(500).json({ error: '사용자 삭제 중 오류가 발생했습니다.' });
+  }
+});
 
 
 // React 정적 파일 제공

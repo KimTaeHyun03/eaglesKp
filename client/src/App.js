@@ -10,8 +10,8 @@ import Ra from './page/ra.js';
 import Role from './page/role.js';
 import Cook from './page/cook.js';
 import Group from './page/group.js';
+import UserManagement from './page/userManagement.js';
 import RedirectToChrome from './page/redirectToChrome.js';
-
 
 //앱 컴포넌트
 function App() {
@@ -31,9 +31,10 @@ function App() {
         />
         <Route path='/permisson' element={<Permisson />} />
         {/*<Route path='/permisson/ruleAdd' element={<RuleAdd />} />
-        */}
+         */}
         <Route path='/group' element={<Group />} />
         <Route path='/chrome' element={<RedirectToChrome />} />
+        <Route path='/user' element={<UserManagement />} />
       </Routes>
     </div>
   );

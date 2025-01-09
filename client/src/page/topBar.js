@@ -55,6 +55,16 @@ let TopBar = () => {
           조짜기
         </p>
 
+        <p
+          className='ladderMenuP'
+          onClick={() => {
+            setIsMenuOpen(!isMenuOpen);
+            navigate('/user');
+          }}
+        >
+          취사병 추가, 삭제
+        </p>
+
         <p>
           <p className='help'>
             <h4
