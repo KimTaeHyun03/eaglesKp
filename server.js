@@ -426,6 +426,44 @@ app.delete('/api/user/delete/:id', async (req, res) => {
   }
 });
 
+app.post('/api/cook/update', async (req, res) => {
+  try {
+    const { cookLine } = req.body;
+    const cookCollection = db.collection('COOK');
+
+    await Promise.all(
+      cookLine.map(async (item) => {
+        const 역할 = item.라인; // '라인'을 '역할'로 매핑
+        const 담당자 = item.담당; // '담당'을 '담당자'로 매핑
+
+        console.log('Processing item:', { 역할, 담당자 });
+
+        if (담당자 && 담당자.trim() !== '') {
+          const result = await cookCollection.updateOne(
+            { 역할 },
+            { $set: { 담당자 } },
+            { upsert: true }
+          );
+
+          if (result.matchedCount === 0 && result.upsertedCount === 0) {
+            console.error(`업데이트 실패: 역할 "${역할}"에 대해 작업이 수행되지 않았습니다.`);
+          } else if (result.upsertedCount > 0) {
+            console.log(`새 문서 생성됨: 역할 "${역할}", ID: ${result.upsertedId}`);
+          } else {
+            console.log(`기존 문서 업데이트됨: 역할 "${역할}"`);
+          }
+        } else {
+          console.log(`Skipped empty 담당자 for 역할: ${역할}`);
+        }
+      })
+    );
+
+    res.status(200).json({ message: 'COOK 데이터가 성공적으로 업데이트되었습니다.' });
+  } catch (error) {
+    console.error('데이터 업데이트 중 오류:', error);
+    res.status(500).json({ error: '데이터 업데이트 중 오류가 발생했습니다.' });
+  }
+});
 
 // React 정적 파일 제공
 app.use(express.static(path.join(__dirname, 'client/build')));

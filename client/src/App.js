@@ -12,6 +12,7 @@ import Cook from './page/cook.js';
 import Group from './page/group.js';
 import UserManagement from './page/userManagement.js';
 import RedirectToChrome from './page/redirectToChrome.js';
+import NextCook from './page/nextCook.js';
 
 //앱 컴포넌트
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path='/group' element={<Group />} />
         <Route path='/chrome' element={<RedirectToChrome />} />
         <Route path='/user' element={<UserManagement />} />
+        <Route path='/nextCook' element={<NextCook />} />
       </Routes>
     </div>
   );

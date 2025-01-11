@@ -64,6 +64,16 @@ let TopBar = () => {
         >
           취사병 추가, 삭제
         </p>
+        
+        <p
+          className='ladderMenuP'
+          onClick={() => {
+            setIsMenuOpen(!isMenuOpen);
+            navigate('/nextCook');
+          }}
+        >
+          다음달 조리라인 관리
+        </p>
 
         <p>
           <p className='help'>
