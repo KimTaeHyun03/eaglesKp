@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3030;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-let url = process.env.MONGO_URI
+let url = process.env.MONGO_URI;
 let permisson = JSON.parse(process.env.PERMISSON);
 
 // MongoDB 연결
@@ -37,172 +37,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// GET 요청으로 초기 JSON 데이터 삽입
-{/*
-app.get('/api/insert', async (req, res) => {
-  try {
-    // 삽입할 데이터 (JSON 형태로 작성)
-    const RA = 'RA'; // 컬렉션 이름 지정
-    let ra = [
-      { 구역: '왼쪽창고', 정: '옥민구', 부: '김태현' },
-      { 구역: '오른쪽창고', 정: '민준기', 부: '김학태' },
-      { 구역: '쌀·소도구 창고', 정: '김학태', 부: '민준기' },
-      { 구역: '잔반처리장·흡연장', 정: '한민우', 부: '윤재현' },
-      { 구역: '휴게실·화장실·입구', 정: '공지원', 부: '김민석' },
-      { 구역: '유제품·야채냉장고', 정: '김태현', 부: '옥민구' },
-      { 구역: '냉동고', 정: '윤재현', 부: '한민우' },
-      { 구역: '복도 냉장·냉동고', 정: '김민석', 부: '공지원' }
-    ];
-
-    const collection = db.collection(RA);
-    const result = await collection.insertMany(ra);
-
-    const Role = 'Role'; // 컬렉션 이름 지정
-    let role = [
-      {
-        구역: '폐유',
-        담당: '튀김당당이 폐유'
-      },
-      {
-        구역: '엘베올리기',
-        담당: '조리 최선임이 관리'
-      },
-      {
-        구역: '보존식',
-        담당: '밥 한 사람'
-      },
-      {
-        구역: '아짬·짬통비우기',
-        담당: '설거지 하는 사람'
-      },
-      {
-        구역: '쓰레기 버리기',
-        담당: '설거지, 밥 한 사람이 화부조 점심조리 저녁조리 후 바로 치우기'
-      },
-      {
-        구역: '조미료 채우고 관리',
-        담당: '국 하는 사람'
-      },
-      {
-        구역: '식기 도구 치우기, 엘베 정리',
-        담당: '설거지 하는 사람'
-      },
-      {
-        구역: '하수구',
-        담당: '막내'
-      },
-      {
-        구역: '화구',
-        담당: '설거지 하는 사람'
-      },
-      {
-        구역: '조리실 소독기',
-        담당: '아래 설거지 하는 인원'
-      },
-      {
-        구역: '취반기 세미기',
-        담당: '밥 하는 사람'
-      },
-      {
-        구역: '후식, 소스 챙기기',
-        담당: '조리 최선임'
-      },
-      {
-        구역: '솥에 물 끓여서 엎기',
-        담당: '국 한 사람이 국솥에'
-      }
-    ];
-
-    const collection1 = db.collection(Role);
-    const result1 = await collection1.insertMany(role);
-
-    const COOK = 'COOK'; // 컬렉션 이름 지정
-    let cook = [
-      {
-        역할: '국',
-        담당자: '공지원'
-      },
-      {
-        역할: '볶음',
-        담당자: '김민석'
-      },
-      {
-        역할: '튀김',
-        담당자: '한민우'
-      },
-      {
-        역할: '밥',
-        담당자: '윤재현'
-      },
-      {
-        역할: '설거지',
-        담당자: '민준기'
-      },
-      {
-        역할: '총괄',
-        담당자: '김학태'
-      },
-      {
-        역할: '칼질',
-        담당자: '김태현'
-      },
-      {
-        역할: '칼질',
-        담당자: '옥민구'
-      }
-    ];
-
-    const collection2 = db.collection(COOK);
-    const result2 = await collection2.insertMany(cook);
-
-    res.status(200).json({
-      message: '데이터가 성공적으로 삽입되었습니다!',
-      insertedId: result.insertedId
-    });
-  } catch (error) {
-    console.error('데이터 삽입 오류:', error);
-    res.status(500).json({ error: '데이터 삽입 중 오류가 발생했습니다.' });
-  }
-});
-*/}
-
-// GET 요청으로 컬렉션 삭제
-{/*
-app.get('/api/delete', async (req, res) => {
-  try {
-    let RA = 'RA'; // 삭제할 컬렉션 이름
-    let Role ='Role';
-    let COOK ='COOK'
-    const collection = db.collection(RA);
-    const collection1 = db.collection(Role);
-    const collection2 = db.collection(COOK);
-    // 컬렉션 삭제
-    const result = await collection.drop();
-    const result1 = await collection1.drop();
-    const result2 = await collection2.drop();
-    if (result) {
-      res.status(200).json({
-        message: `컬렉션 '${RA}'가 성공적으로 삭제되었습니다.`
-      });
-    } else {
-      res.status(500).json({
-        error: `컬렉션 '${RA}' 삭제에 실패했습니다.`
-      });
-    }
-  } catch (error) {
-    console.error('컬렉션 삭제 오류:', error);
-    res.status(500).json({
-      error: '컬렉션 삭제 중 오류가 발생했습니다.'
-    });
-  }
-});
-*/}
-
 //요청한 info 데이터 보내주는 api
 app.get('/api/infoGet', async (req, res) => {
   try {
     const collection = db.collection('info'); // 컬렉션 이름
-    const infos = await collection.find({}).sort('id',1).toArray();
+    const infos = await collection.find({}).sort('id', 1).toArray();
     res.status(200).json(infos);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -214,7 +53,7 @@ app.get('/api/infoGet', async (req, res) => {
 app.get('/api/raGet', async (req, res) => {
   try {
     const collection = db.collection('RA'); // 컬렉션 이름
-    const roles = await collection.find({}).sort('구역',1).toArray();
+    const roles = await collection.find({}).sort('구역', 1).toArray();
     res.status(200).json(roles);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -226,7 +65,7 @@ app.get('/api/raGet', async (req, res) => {
 app.get('/api/roleGet', async (req, res) => {
   try {
     const collection = db.collection('Role'); // 컬렉션 이름
-    const roles = await collection.find({}).sort('구역',1).toArray();
+    const roles = await collection.find({}).sort('구역', 1).toArray();
     res.status(200).json(roles);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -235,10 +74,10 @@ app.get('/api/roleGet', async (req, res) => {
 });
 
 //요청한 조리 라인 데이터 보내주는 api
-app.get('/api/cookGet', async (req,res)=>{
+app.get('/api/cookGet', async (req, res) => {
   try {
     const collection = db.collection('COOK'); // 컬렉션 이름
-    const roles = await collection.find({}).sort('역할',1).toArray();
+    const roles = await collection.find({}).sort('역할', 1).toArray();
     res.status(200).json(roles);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -247,10 +86,10 @@ app.get('/api/cookGet', async (req,res)=>{
 });
 
 //user 데이터 받아오기
-app.get('/api/userGet', async (req,res)=>{
+app.get('/api/userGet', async (req, res) => {
   try {
     const collection = db.collection('user'); // 컬렉션 이름
-    const users = await collection.find({}).sort('입대년월',1).toArray();
+    const users = await collection.find({}).sort('입대년월', 1).toArray();
     res.status(200).json(users);
   } catch (error) {
     console.error('데이터 조회 오류:', error);
@@ -305,7 +144,6 @@ app.post('/api/roleUpdate', async (req, res) => {
   }
 });
 
-
 // cook 업데이트 API
 app.post('/api/cookUpdate', async (req, res) => {
   const { sendIndex, sendValue } = req.body;
@@ -331,70 +169,30 @@ app.post('/api/cookUpdate', async (req, res) => {
   }
 });
 
-
 //권한 획득 api
 app.post('/api/permissonChk', (req, res) => {
   let sendPermisson = req.body;
   if (
-    !sendPermisson.sendAccessValue && 
+    !sendPermisson.sendAccessValue &&
     permisson.permissonId === sendPermisson.sendId &&
     permisson.permissonPw === sendPermisson.sendPw
   ) {
     res.status(200).send('권한 획득 성공');
-  } else if (sendPermisson.sendAccessValue){
+  } else if (sendPermisson.sendAccessValue) {
     res.status(201).send('로그아웃 버튼으로 변경');
-  }else {
+  } else {
     res.status(401).send('권한 획득 실패');
   }
 });
-
-//user data 삽입 api
-{/*
-app.get('/api/userinsert', async (req, res) => {
-  try {
-    // 삽입할 데이터 (JSON 형태로 작성)
-    const user = 'user'; // 컬렉션 이름 지정
-    let users = [{
-      입대년월 : '231023',이름:'김학태'
-    },{
-      입대년월 : '231023',이름:'김태현'
-    },{
-      입대년월 : '231023',이름:'민준기'
-    },{
-      입대년월 : '231212',이름:'옥민구'
-    },{
-      입대년월 : '240102',이름:'김민석'
-    },{
-      입대년월 : '240201',이름:'공지원'
-    },{
-      입대년월 : '240811',이름:'한민우'
-    },{
-      입대년월 : '240912',이름:'윤재현'
-    },
-    ];
-
-    const collection = db.collection(user);
-    const result = await collection.insertMany(users);
-    
-res.status(200).json({
-      message: '데이터가 성공적으로 삽입되었습니다!',
-      insertedId: result.insertedId
-    });
-  } catch (error) {
-    console.error('데이터 삽입 오류:', error);
-    res.status(500).json({ error: '데이터 삽입 중 오류가 발생했습니다.' });
-  }
-});
-*/}
-
+//info 업데이트 api
 app.post('/api/infoUpdate', async (req, res) => {
   try {
     const updates = req.body.data; // role 데이터
     const bulkOperations = updates.map(item => ({
       updateOne: {
-        filter: { id: item.id },
-        update: { $set: { name: item.name, cook: item.cook } },
-      },
+        filter: { name: item.name },
+        update: { $set: {cook: item.cook} }
+      }
     }));
 
     await db.collection('info').bulkWrite(bulkOperations); // MongoDB Bulk Write
@@ -414,12 +212,15 @@ app.post('/api/user/add', async (req, res) => {
     const userCollection = db.collection('user');
 
     console.log('Fetching users with 입대년월:', 입대년월);
-    const users = await userCollection.find({ 입대년월 }).sort({ 고유ID: 1 }).toArray();
+    const users = await userCollection
+      .find({ 입대년월 })
+      .sort({ 고유ID: 1 })
+      .toArray();
     console.log('Existing users:', users);
 
     let suffix = 1;
     if (users.length > 0) {
-      const lastUserId = users[users.length - 1]?.고유ID || "0";
+      const lastUserId = users[users.length - 1]?.고유ID || '0';
       suffix = parseInt(lastUserId.slice(-1), 10) + 1;
     }
 
@@ -430,7 +231,9 @@ app.post('/api/user/add', async (req, res) => {
     const result = await userCollection.insertOne(newUser);
     console.log('Insert Result:', result);
 
-    res.status(201).json({ message: '사용자가 추가되었습니다.', user: newUser });
+    res
+      .status(201)
+      .json({ message: '사용자가 추가되었습니다.', user: newUser });
   } catch (error) {
     console.error('Error adding user:', error);
     res.status(500).json({ error: '사용자 추가 중 오류가 발생했습니다.' });
@@ -462,7 +265,7 @@ app.post('/api/cook/update', async (req, res) => {
     const cookCollection = db.collection('info');
 
     await Promise.all(
-      cookLine.map(async (item) => {
+      cookLine.map(async item => {
         const 역할 = item.라인; // '라인'을 '역할'로 매핑
         const 담당자 = item.담당; // '담당'을 '담당자'로 매핑
 
@@ -476,9 +279,13 @@ app.post('/api/cook/update', async (req, res) => {
           );
 
           if (result.matchedCount === 0 && result.upsertedCount === 0) {
-            console.error(`업데이트 실패: 역할 "${역할}"에 대해 작업이 수행되지 않았습니다.`);
+            console.error(
+              `업데이트 실패: 역할 "${역할}"에 대해 작업이 수행되지 않았습니다.`
+            );
           } else if (result.upsertedCount > 0) {
-            console.log(`새 문서 생성됨: 역할 "${역할}", ID: ${result.upsertedId}`);
+            console.log(
+              `새 문서 생성됨: 역할 "${역할}", ID: ${result.upsertedId}`
+            );
           } else {
             console.log(`기존 문서 업데이트됨: 역할 "${역할}"`);
           }
@@ -488,7 +295,9 @@ app.post('/api/cook/update', async (req, res) => {
       })
     );
 
-    res.status(200).json({ message: 'COOK 데이터가 성공적으로 업데이트되었습니다.' });
+    res
+      .status(200)
+      .json({ message: 'COOK 데이터가 성공적으로 업데이트되었습니다.' });
   } catch (error) {
     console.error('데이터 업데이트 중 오류:', error);
     res.status(500).json({ error: '데이터 업데이트 중 오류가 발생했습니다.' });

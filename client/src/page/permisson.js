@@ -1,7 +1,7 @@
 import './../css/permisson.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 //권한획득 상태 변경하는 리덕스 변경함수
@@ -10,7 +10,7 @@ import { access } from './../store';
 let Permisson = () => {
   let [id, setId] = useState('');
   let [pw, setPw] = useState('');
-  let [ruleAdd, setRuleAdd] = useState(false);
+  // let [ruleAdd, setRuleAdd] = useState(false);
   let [login, setLogin] = useState('로그인');
   //권한획득 상태를 나타내는 리덕스 값
   let accessValue = useSelector(state => state.permissonAccess.value);

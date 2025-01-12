@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './../css/tableStyle.css';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import CurrentDate from './date.js';
 
 let Ra = () => {
   let [loading, setLoading] = useState(true);
   let [role, setRole] = useState([]);
-  let accessValue = useSelector(state => state.permissonAccess.value);
+  // let accessValue = useSelector(state => state.permissonAccess.value);
 
   // 데이터 가져오기
   useEffect(() => {

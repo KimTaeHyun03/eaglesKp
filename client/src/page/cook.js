@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './../css/tableStyle.css';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import CurrentDate from './date.js';
 
 let Cook = () => {
   let [loading, setLoading] = useState(true);
   let [role, setRole] = useState([]);
-  let [index, setIndex] = useState(null);
-  let [value, setValue] = useState(''); // 수정할 값
-  let [trigger, setTrigger] = useState(false); // 수정창 표시 여부
+  //let [index, setIndex] = useState(null);
+  // let [value, setValue] = useState(''); // 수정할 값
+  // let [trigger, setTrigger] = useState(false); // 수정창 표시 여부
 
-  let accessValue = useSelector(state => state.permissonAccess.value);
+  // let accessValue = useSelector(state => state.permissonAccess.value);
 
   // 데이터 가져오기
   useEffect(() => {

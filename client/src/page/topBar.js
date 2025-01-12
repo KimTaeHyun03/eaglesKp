@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 let TopBar = () => {
   //권한획득 상태를 나타내는 리덕스 값
-  let accessValue = useSelector(state => state.permissonAccess.value);
+  // let accessValue = useSelector(state => state.permissonAccess.value);
   let navigate = useNavigate();
   // 슬라이드 메뉴 상태
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,9 +19,9 @@ let TopBar = () => {
   };
 
   //setIsMenuOpen 변경 함수 - onClick에 넣을 함수
-  let menuOpen = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // let menuOpen = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
 
   return (
     <div className='main'>
