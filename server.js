@@ -198,6 +198,18 @@ app.get('/api/delete', async (req, res) => {
 });
 */}
 
+//요청한 info 데이터 보내주는 api
+app.get('/api/infoGet', async (req, res) => {
+  try {
+    const collection = db.collection('info'); // 컬렉션 이름
+    const infos = await collection.find({}).sort('id',1).toArray();
+    res.status(200).json(infos);
+  } catch (error) {
+    console.error('데이터 조회 오류:', error);
+    res.status(500).json({ error: '데이터 조회 실패' });
+  }
+});
+
 //요청한 창고관리 데이터 보내주는 api
 app.get('/api/raGet', async (req, res) => {
   try {
@@ -375,6 +387,24 @@ res.status(200).json({
 });
 */}
 
+app.post('/api/infoUpdate', async (req, res) => {
+  try {
+    const updates = req.body.data; // role 데이터
+    const bulkOperations = updates.map(item => ({
+      updateOne: {
+        filter: { id: item.id },
+        update: { $set: { name: item.name, cook: item.cook } },
+      },
+    }));
+
+    await db.collection('info').bulkWrite(bulkOperations); // MongoDB Bulk Write
+    res.status(200).json({ message: '업데이트 성공' });
+  } catch (error) {
+    console.error('업데이트 실패:', error);
+    res.status(500).json({ message: '업데이트 실패' });
+  }
+});
+
 //user추가와 아이디 관리 api
 app.post('/api/user/add', async (req, res) => {
   try {
@@ -429,7 +459,7 @@ app.delete('/api/user/delete/:id', async (req, res) => {
 app.post('/api/cook/update', async (req, res) => {
   try {
     const { cookLine } = req.body;
-    const cookCollection = db.collection('COOK');
+    const cookCollection = db.collection('info');
 
     await Promise.all(
       cookLine.map(async (item) => {

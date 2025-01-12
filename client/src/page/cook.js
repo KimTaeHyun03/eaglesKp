@@ -16,50 +16,24 @@ let Cook = () => {
 
   // 데이터 가져오기
   useEffect(() => {
-    const fetchRoles = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}api/cookGet`);
-        setRole(response.data);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}api/infoGet`);
+        // 데이터에서 id, name, cook만 추출
+        const transformedData = response.data.map(item => ({
+          id: item.id,
+          name: item.name,
+          cook: item.cook,
+        }));
+        setRole(transformedData);
         setLoading(false);
       } catch (error) {
         console.error('데이터 가져오기 실패:', error);
         setLoading(false);
       }
     };
-    fetchRoles();
+    fetchData();
   }, []);
-
-  // 데이터 업데이트
-  const update = async () => {
-    try {
-      if (!value) {
-        alert('값을 입력하세요!');
-        return;
-      }
-
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}api/cookUpdate`, {
-        sendIndex: index,
-        sendValue: value, // 입력된 새 값
-      });
-
-      if (response.status === 200) {
-        alert('업데이트 성공');
-        // 데이터를 다시 가져옴
-        const updatedRoles = await axios.get(`${process.env.REACT_APP_API_URL}api/cookGet`);
-        setRole(updatedRoles.data);
-
-        // 상태 초기화
-        setIndex(null);
-        setValue('');
-        setTrigger(false);
-      } else {
-        alert('업데이트 실패');
-      }
-    } catch (error) {
-      console.error('업데이트 실패:', error);
-      alert('업데이트 중 오류 발생');
-    }
-  };
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -74,46 +48,18 @@ let Cook = () => {
             <tr>
               <th>역할</th>
               <th>담당자</th>
-              {accessValue ? <th>비고</th> : null}
             </tr>
           </thead>
           <tbody>
             {role.map((item, idx) => (
-              <tr key={idx}>
-                <td>{item.역할}</td>
-                <td>{item.담당자}</td>
-                {accessValue ? (
-                  <td
-                    onClick={() => {
-                      setIndex(item.역할); // 선택된 역할 설정
-                      setTrigger(true); // 수정창 표시
-                    }}
-                  >
-                    수정
-                  </td>
-                ) : null}
+              <tr key={item.id}>
+                <td>{item.cook}</td>
+                <td>{item.name}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      {trigger && (
-        <div className='tableUpdate'>
-          <label>{index}</label>
-          <br/>
-          <input
-          className='input'
-            type="text"
-            placeholder="새 값을 입력하세요"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <button 
-          className='btn'
-          onClick={update}>수정</button>
-        </div>
-      )}
     </>
   );
 };

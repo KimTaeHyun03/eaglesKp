@@ -1,90 +1,118 @@
-import './../css/nextCook.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import './../css/tableStyle.css';
+import { useSelector } from 'react-redux';
+
+import CurrentDate from './date.js';
 
 let NextCook = () => {
-  let [cookLine, setCookLine] = useState(() => {
-    const savedData = localStorage.getItem('cookLine');
-    return savedData ? JSON.parse(savedData) : [
-  { 역할: '밥', 담당자: '' },
-  { 역할: '설거지', 담당자: '' },
-  { 역할: '튀김', 담당자: '' },
-  { 역할: '볶음', 담당자: '' },
-  { 역할: '국', 담당자: '' },
-  { 역할: '나물', 담당자: '' },
-  { 역할: '총괄', 담당자: '' },
-  { 역할: '칼질1', 담당자: '' },
-  { 역할: '칼질2', 담당자: '' },
-  { 역할: '신병', 담당자: '' },
-];
-  });
+  let [loading, setLoading] = useState(true);
+  let [role, setRole] = useState([]);
+  let accessValue = useSelector(state => state.permissonAccess.value);
+
+  // 첫 렌더링 시 로컬스토리지 데이터 가져오기
+  useEffect(() => {
+    const savedData = localStorage.getItem('cookTable');
+    if (savedData) {
+      setRole(JSON.parse(savedData)); // 로컬스토리지 데이터를 role 상태로 설정
+    }
+    setLoading(false); // 로딩 완료
+  }, []);
+
+  // MongoDB에서 데이터 가져오기
+  const fetchFromDatabase = async () => {
+    setLoading(true); // 로딩 시작
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}api/infoGet`);
+      // MongoDB에서 가져온 데이터를 id, name, cook만 추출하여 role 상태로 업데이트
+      const transformedData = response.data.map(item => ({
+        id: item.id,
+        name: item.name,
+        cook: item.cook,
+      }));
+      setRole(transformedData); // 상태 업데이트
+    } catch (error) {
+      console.error('데이터 가져오기 실패:', error);
+    } finally {
+      setLoading(false); // 로딩 종료
+    }
+  };
 
   // 로컬스토리지에 저장하는 함수
   const saveToLocalStorage = () => {
-    localStorage.setItem('cookLine', JSON.stringify(cookLine));
-    alert('저장되었습니다!');
+    const jsonData = JSON.stringify(role); // role 데이터를 JSON 형식으로 변환
+    localStorage.setItem('cookTable', jsonData); // 로컬스토리지에 저장
+    alert('임시 저장되었습니다!');
   };
 
-  // 서버에 cookLine 데이터를 제출하는 함수
-  // 서버에 cookLine 데이터를 제출하는 함수
-const submitToDatabase = async () => {
-  try {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}api/cook/update`, {
-      cookLine,
-    });
-    alert(response.data.message || '제출되었습니다!');
-  } catch (error) {
-    console.error('제출 중 오류 발생:', error);
+  // 데이터베이스에 저장하는 함수
+  const saveToDatabase = async () => {
+    try {
+      // MongoDB에 업데이트 요청
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}api/infoUpdate`, {
+        data: role, // 현재 role 데이터를 서버로 전달
+      });
 
-    // 오류 메시지를 확인하고 처리
-    const errorMessage = error.response?.data?.error || error.response?.data || error.message || '알 수 없는 오류';
-    
-    // alert에 오류 메시지 출력
-    alert(`제출 중 오류 발생: ${errorMessage}`);
+      if (response.status === 200) {
+        alert('데이터가 성공적으로 저장되었습니다!');
+      } else {
+        alert('저장 실패: ' + response.data.message);
+      }
+    } catch (error) {
+      console.error('저장 중 오류 발생:', error);
+      alert('저장 중 오류가 발생했습니다.');
+    }
+  };
+
+  if (loading) {
+    return <div>로딩 중...</div>;
   }
-};
+
   return (
-    <div className='nextcook'>
-      <h2> 다음달 조리라인</h2>
-
-      <table className='table'>
-        <thead>
-          <tr>
-            <th>라인</th>
-            <th>담당</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {cookLine.map((item, index) => (
-            <tr key={index}>
-              <td>{item.라인}</td>
-              <td>
-                <textarea
-                  type='text'
-                  value={item.담당}
-                  onChange={(e) => {
-                    const updatedCookLine = [...cookLine];
-                    updatedCookLine[index].담당 = e.target.value;
-                    setCookLine(updatedCookLine);
-                  }}
-                  className='textarea'
-                ></textarea>
-              </td>
+    <>
+      <CurrentDate></CurrentDate>
+      <div className="tableBox">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>역할</th>
+              <th>담당자</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div><h3>저장은 임시저장하는거고 제출은 저장사항 반영하는거임</h3></div>
+          </thead>
+          <tbody>
+            {role.map((item, idx) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.cook}</td>
+                <td>
+                  <textarea
+                    value={item.name} // 현재 name 값 표시
+                    onChange={(e) => {
+                      const updatedRole = [...role];
+                      updatedRole[idx].name = e.target.value; // 입력된 값으로 name 업데이트
+                      setRole(updatedRole); // 상태 업데이트
+                    }}
+                    className="nameInput"
+                  ></textarea>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div>
-        <button className='nextCookBtn' onClick={saveToLocalStorage}>
+        <button className="fetchBtn" onClick={fetchFromDatabase}>
+          현재 조리라인 보기
+        </button>
+        <button className="saveBtn" onClick={saveToLocalStorage}>
+          임시 저장
+        </button>
+        <button className="saveBtn" onClick={saveToDatabase}>
           저장
         </button>
-        <button className='nextCookBtn' onClick={submitToDatabase}>
-          제출
-        </button>
       </div>
-    </div>
+    </>
   );
 };
 
