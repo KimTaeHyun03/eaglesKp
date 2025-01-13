@@ -74,16 +74,16 @@ app.get('/api/roleGet', async (req, res) => {
 });
 
 //요청한 조리 라인 데이터 보내주는 api
-app.get('/api/cookGet', async (req, res) => {
-  try {
-    const collection = db.collection('COOK'); // 컬렉션 이름
-    const roles = await collection.find({}).sort('역할', 1).toArray();
-    res.status(200).json(roles);
-  } catch (error) {
-    console.error('데이터 조회 오류:', error);
-    res.status(500).json({ error: '데이터 조회 실패' });
-  }
-});
+// app.get('/api/cookGet', async (req, res) => {
+//   try {
+//     const collection = db.collection('COOK'); // 컬렉션 이름
+//     const roles = await collection.find({}).sort('역할', 1).toArray();
+//     res.status(200).json(roles);
+//   } catch (error) {
+//     console.error('데이터 조회 오류:', error);
+//     res.status(500).json({ error: '데이터 조회 실패' });
+//   }
+// });
 
 //user 데이터 받아오기
 // app.get('/api/userGet', async (req, res) => {
@@ -184,18 +184,19 @@ app.post('/api/permissonChk', (req, res) => {
     res.status(401).send('권한 획득 실패');
   }
 });
-//info 업데이트 api
+
+//cook update api
 app.post('/api/infoUpdate', async (req, res) => {
   try {
-    const updates = req.body.data; // role 데이터
-    const bulkOperations = updates.map(item => ({
-      updateOne: {
-        filter: { name: item.name },
-        update: { $set: {cook: item.cook} }
-      }
-    }));
+    const updates = req.body.data; // React에서 전달된 데이터 배열
 
-    await db.collection('info').bulkWrite(bulkOperations); // MongoDB Bulk Write
+    for (const item of updates) {
+      await db.collection('info').updateOne(
+        { id: item.id }, // 'id'로 문서 필터
+        { $set: { cook: item.cook } } // 'cook' 필드만 업데이트
+      );
+    }
+
     res.status(200).json({ message: '업데이트 성공' });
   } catch (error) {
     console.error('업데이트 실패:', error);
