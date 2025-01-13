@@ -86,16 +86,16 @@ app.get('/api/cookGet', async (req, res) => {
 });
 
 //user 데이터 받아오기
-app.get('/api/userGet', async (req, res) => {
-  try {
-    const collection = db.collection('user'); // 컬렉션 이름
-    const users = await collection.find({}).sort('입대년월', 1).toArray();
-    res.status(200).json(users);
-  } catch (error) {
-    console.error('데이터 조회 오류:', error);
-    res.status(500).json({ error: '데이터 조회 실패' });
-  }
-});
+// app.get('/api/userGet', async (req, res) => {
+//   try {
+//     const collection = db.collection('info'); // 컬렉션 이름
+//     const users = await collection.find({}).sort('id', 1).toArray();
+//     res.status(200).json(users);
+//   } catch (error) {
+//     console.error('데이터 조회 오류:', error);
+//     res.status(500).json({ error: '데이터 조회 실패' });
+//   }
+// });
 
 //RA 업데이트 api
 app.post('/api/dataUpdate', async (req, res) => {
@@ -203,31 +203,33 @@ app.post('/api/infoUpdate', async (req, res) => {
   }
 });
 
-//user추가와 아이디 관리 api
 app.post('/api/user/add', async (req, res) => {
   try {
     console.log('Request received:', req.body);
 
-    const { 이름, 입대년월 } = req.body;
-    const userCollection = db.collection('user');
+    const { sendName, sendEntryDate } = req.body;
+    const userCollection = db.collection('info');
 
-    console.log('Fetching users with 입대년월:', 입대년월);
+    console.log('Fetching users with 입대년월:', sendEntryDate);
     const users = await userCollection
-      .find({ 입대년월 })
-      .sort({ 고유ID: 1 })
+      .find({ entryDate: sendEntryDate }) // sendEntryDate를 기준으로 검색
+      .sort({ id: 1 }) // ID를 기준으로 정렬
       .toArray();
     console.log('Existing users:', users);
 
-    let suffix = 1;
+    // 고유 ID 계산 로직
+    let suffix = 1; // 기본값
     if (users.length > 0) {
-      const lastUserId = users[users.length - 1]?.고유ID || '0';
-      suffix = parseInt(lastUserId.slice(-1), 10) + 1;
+      const lastUserId = users[users.length - 1].id; // 가장 마지막 ID
+      const lastSuffix = parseInt(lastUserId.slice(sendEntryDate.length), 10); // 입대년월 이후 숫자 추출
+      suffix = lastSuffix + 1; // 다음 순번
     }
 
-    const 고유ID = `${입대년월}${suffix}`;
-    console.log('Generated 고유ID:', 고유ID);
+    const id = `${sendEntryDate}${suffix}`;
+    console.log('Generated 고유ID:', id);
 
-    const newUser = { 이름, 입대년월, 고유ID };
+    // 새 사용자 추가
+    const newUser = { name: sendName, entryDate: sendEntryDate, id };
     const result = await userCollection.insertOne(newUser);
     console.log('Insert Result:', result);
 
@@ -244,9 +246,9 @@ app.post('/api/user/add', async (req, res) => {
 app.delete('/api/user/delete/:id', async (req, res) => {
   try {
     const userId = req.params.id; // 삭제할 사용자 고유ID
-    const userCollection = db.collection('user');
+    const userCollection = db.collection('info');
 
-    const result = await userCollection.deleteOne({ 고유ID: userId });
+    const result = await userCollection.deleteOne({ id : userId });
 
     if (result.deletedCount > 0) {
       res.status(200).json({ message: '사용자가 삭제되었습니다.' });

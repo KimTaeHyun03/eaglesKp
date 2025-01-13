@@ -14,9 +14,14 @@ function UserManagement() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}api/userGet`
+        `${process.env.REACT_APP_API_URL}api/infoGet`
       );
-      setUsers(response.data);
+      const transformedData = response.data.map(item => ({
+        getId: item.id,
+        getName: item.name,
+        getEntryDate: item.entryDate,
+      }));
+      setUsers(transformedData); // 상태 업데이트
     } catch (error) {
       console.error('사용자 목록을 가져오는 중 오류 발생:', error);
       setMessage('사용자 목록을 가져오는 중 오류가 발생했습니다.');
@@ -39,8 +44,8 @@ function UserManagement() {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}api/user/add`,
         {
-          이름: name,
-          입대년월: entryDate
+          sendName: name,
+          sendEntryDate: entryDate
         }
       );
       setMessage(response.data.message); // API 응답 메시지 설정
@@ -115,10 +120,10 @@ function UserManagement() {
         ) : (
           <ul>
             {users.map(user => (
-              <li key={user.고유ID}>
-                {user.이름} ({user.입대년월}) - 고유ID: {user.고유ID}
+              <li key={user.getId}>
+                {user.getName} ({user.getEntryDate}) - 고유ID: {user.getId}
                 {accessValue ? (
-                  <button onClick={() => deleteUser(user.고유ID)}>삭제</button>
+                  <button onClick={() => deleteUser(user.getId)}>삭제</button>
                 ) : null}
               </li>
             ))}
