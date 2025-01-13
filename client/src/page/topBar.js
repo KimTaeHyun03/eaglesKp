@@ -1,11 +1,11 @@
 import './../css/topBar.css';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector} from 'react-redux';
 
 let TopBar = () => {
   //권한획득 상태를 나타내는 리덕스 값
-  // let accessValue = useSelector(state => state.permissonAccess.value);
+  let accessValue = useSelector(state => state.permissonAccess.value);
   let navigate = useNavigate();
   // 슬라이드 메뉴 상태
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,8 +54,8 @@ let TopBar = () => {
         >
           조짜기
         </p>
-
-        <p
+{accessValue ? <div>
+          <p
           className='ladderMenuP'
           onClick={() => {
             setIsMenuOpen(!isMenuOpen);
@@ -74,6 +74,8 @@ let TopBar = () => {
         >
           다음달 조리라인 관리
         </p>
+</div> : null}
+
 
         <p>
           <p className='help'>
