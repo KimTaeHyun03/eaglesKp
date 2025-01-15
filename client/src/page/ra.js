@@ -45,7 +45,6 @@ let Ra = () => {
 
   return (
     <>
-      <CurrentDate></CurrentDate>
       <div className="tableBox">
         <table className="table">
           <thead>

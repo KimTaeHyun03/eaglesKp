@@ -55,6 +55,8 @@ const NextCook = () => {
           data: role
         }
       );
+      const jsonData = JSON.stringify(role); // role 데이터를 JSON 문자열로 변환
+    localStorage.setItem('cookTable', jsonData); // 로컬스토리지에 저장
       if (response.status === 200) {
         alert('데이터가 성공적으로 저장되었습니다!');
       } else {
