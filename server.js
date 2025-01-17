@@ -144,6 +144,31 @@ app.post('/api/roleUpdate', async (req, res) => {
   }
 });
 
+//role 푸시 api
+app.post('/api/rolePush', async (req, res) => {
+  const { sendPush1, sendPush2 } = req.body;
+
+  if (!sendPush1 || !sendPush2) {
+    return res.status(400).send('필수 데이터가 누락되었습니다.');
+  }
+
+  try {
+    const result = await db.collection('Role').insertOne({
+      구역: sendPush1,
+      담당: sendPush2
+    });
+
+    if (result.acknowledged) {
+      res.status(200).send('데이터 추가 성공');
+    } else {
+      res.status(400).send('데이터 추가 실패');
+    }
+  } catch (error) {
+    console.error('데이터 추가 중 오류:', error);
+    res.status(500).send('서버 오류 발생');
+  }
+});
+
 // cook 업데이트 API
 app.post('/api/cookUpdate', async (req, res) => {
   const { sendIndex, sendValue } = req.body;
