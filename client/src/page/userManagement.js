@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import './../css/userManagement.css';
 
 function UserManagement() {
   const [users, setUsers] = useState([]); // 사용자 목록 상태
@@ -113,14 +114,14 @@ function UserManagement() {
       {message && <p>{message}</p>}
 
       {/* 사용자 목록 표시 */}
-      <div>
+      <div className='userDiv'>
         <h2>사용자 목록</h2>
         {users.length === 0 ? (
           <p>사용자가 없습니다.</p>
         ) : (
-          <ul>
+          <ul className='userUl'>
             {users.map(user => (
-              <li key={user.getId}>
+              <li key={user.getId} className='userList'>
                 {user.getName} ({user.getEntryDate}) - 고유ID: {user.getId}
                 {accessValue ? (
                   <button onClick={() => deleteUser(user.getId)}>삭제</button>

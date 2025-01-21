@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './../css/tableStyle.css';
+import './../css/tableStyle1.css';
 import { useSelector } from 'react-redux';
 
 let Role = () => {
@@ -150,6 +151,7 @@ let Role = () => {
               setPush1(e.target.value);
             }}
             ></input>
+            <br></br>
             <input 
             type='text' 
             placeholder='담당을 입력하세요'
@@ -158,7 +160,7 @@ let Role = () => {
             }}
             ></input>
           </div>
-          <button onClick={rolePush}>+</button>
+          <button onClick={rolePush}>구역 추가</button>
         </div>
       ) : null}
       
@@ -173,7 +175,7 @@ let Role = () => {
             value={value}
             onChange={e => setValue(e.target.value)}
           />
-          <button className='btn' onClick={update}>
+          <button className='btn1' onClick={update}>
             수정
           </button>
         </div>

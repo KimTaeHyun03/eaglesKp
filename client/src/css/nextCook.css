@@ -1,11 +1,12 @@
-.textarea{
-  width: 99%;
-  height: 100%;
-  border: none;
-}
+
 .nextCookBtn {
   width: 150px;
   height: 50px;
   margin: 15px;
   
+}
+.cookInput{
+  resize: none;
+  border: none;
+  text-align: center;
 }

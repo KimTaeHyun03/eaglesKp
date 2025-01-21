@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './../css/tableStyle.css';
+import './../css/nextCook.css';
 import { useSelector } from 'react-redux';
 
 import CurrentDate from './date.js';

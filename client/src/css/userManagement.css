@@ -1,0 +1,16 @@
+.userDiv{
+  
+  
+}
+
+.userList{
+  list-style: none;
+  padding-bottom: 5px;
+}
+.userUl{
+  width: 90%;
+  padding-left: 5%;
+  margin-left: 0;
+  justify-content: center;
+  align-items: center;
+}
