@@ -49,6 +49,8 @@ app.get('/api/infoGet', async (req, res) => {
   }
 });
 
+
+
 //요청한 창고관리 데이터 보내주는 api
 app.get('/api/raGet', async (req, res) => {
   try {
