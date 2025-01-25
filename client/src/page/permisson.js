@@ -66,6 +66,7 @@ let Permisson = () => {
   return (
     <div className='permissonLogin'>
       <input
+        className='Input'
         type='text'
         placeholder='아이디를 입력하세요'
         onChange={e => {
@@ -74,6 +75,7 @@ let Permisson = () => {
         value={id}
       ></input>
       <input
+      className='Input'
         type='password'
         placeholder='비밀번호를 입력하세요'
         onChange={e => {
@@ -81,8 +83,14 @@ let Permisson = () => {
         }}
         value={pw}
       ></input>
-      <button onClick={permissonChk}>{login}</button>
-      <button onClick={showBtn}>메인으로 돌아가기</button>
+      <div className='buttonDiv'>
+      <button onClick={permissonChk}
+      className='loginBtn1'
+      >{login}</button>
+      <button onClick={showBtn}
+      className='loginBtn1'
+      >메인</button>
+      </div>
      {/* <button className='ruleAddBtn'><Link to='/permisson/ruleAdd'>구역 추가</Link></button>
      */}
       <div className='alert'>

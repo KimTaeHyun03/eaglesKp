@@ -1,0 +1,18 @@
+.mainTabContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3등분 */
+  width: 100%;
+}
+
+.mainTab {
+  text-align: center; /* 텍스트 가운데 정렬 */
+  border: 1px solid rgba(0,0,0,0.3); /* 테스트용 테두리 */
+  padding: 10px; /* 여백 추가 */
+}
+
+.mainTab.active {
+  background: linear-gradient(lightCyan, skyBlue,deepSkyBlue);
+  
+  color: white;
+  font-weight: bold;
+}

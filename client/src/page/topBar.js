@@ -35,7 +35,7 @@ let TopBar = () => {
           </Link>
         </h1>
       </span>
-      <button className='loginBtn'>
+      <button className='permissonBtn'>
         <Link to='/permisson'>수정권한</Link>
       </button>
       {/*

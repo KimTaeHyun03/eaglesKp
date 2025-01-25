@@ -8,14 +8,35 @@
   
 }
 
-.permissonLogin input {
+.Input {
   width: 80%;
-  height: 20px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: 200;
+  border: 1px solid black;
+  border-radius: 20px;
+  text-align: center;
+  
   
 }
-
-.permissonLogin button{
-  width: 70px;
+.Input:nth-child(1){
+  margin-top: 20px;
+}
+.buttonDiv{
+  width: 100vw;
+}
+.loginBtn1{
+  width: 30%;
+  height: 30px;
+  border-radius: 15px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  
+  
+}
+.loginBtn1:nth-child(1){
+  margin-right: 10%;
 }
 
 .alert{
@@ -26,5 +47,4 @@
 .ruleAddBtn a {
   text-decoration: none;
   color: black;
-  
 }
