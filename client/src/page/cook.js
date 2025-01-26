@@ -41,7 +41,7 @@ let Cook = () => {
 
   return (
     <>
-      <CurrentDate></CurrentDate>
+      <CurrentDate num={0} text={'조리라인'} />
       <div className="tableBox">
         <table className="table">
           <thead>

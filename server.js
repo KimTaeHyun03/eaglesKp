@@ -231,6 +231,26 @@ app.post('/api/infoUpdate', async (req, res) => {
   }
 });
 
+//ra update api
+app.post('/api/raUpdate', async (req, res) => {
+  try {
+    const updates = req.body.data; // React에서 전달된 데이터 배열
+
+    for (const item of updates) {
+      await db.collection('info').updateMany(
+        { id: item.id }, // 'id'로 문서 필터
+        { $set: { ra1st: item.ra1st,ra2nd: item.ra2nd } // 'cook' 필드만 업데이트
+        }
+      );
+    }
+
+    res.status(200).json({ message: '업데이트 성공' });
+  } catch (error) {
+    console.error('업데이트 실패:', error);
+    res.status(500).json({ message: '업데이트 실패' });
+  }
+});
+
 app.post('/api/user/add', async (req, res) => {
   try {
     console.log('Request received:', req.body);

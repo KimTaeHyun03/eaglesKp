@@ -8,7 +8,8 @@
   border: 1px solid black;
   border-collapse: collapse;
   width: 100vw;
-  
+  table-layout: fixed; /* 열 너비를 고정 */
+
 }
 .table th{
   border: 2px solid black;
@@ -32,4 +33,41 @@
 .btn1{
   width: 15%;
   height: 30px;
+}
+.rolePush input{
+  width: 80%;
+  height: 25px;
+  
+}
+.th:nth-child(1){
+  width: 35%;
+  
+}
+.th:nth-child(2){
+  width: 55%;
+  
+}
+.th:nth-child(3){
+  width: 10%;
+  
+}
+.roleBtn{
+  margin-bottom: 30px;
+}
+.roleContainer input,button{
+  margin-top: 10px;
+  
+  
+}
+.roleSubtitle{
+  /* border: 1px solid black; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  background-image: linear-gradient(#D8FFFE,skyblue ,#5FB2FF);
+  color: white;
+  font-weight: bold;
+  
 }

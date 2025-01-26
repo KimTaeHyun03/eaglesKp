@@ -47,6 +47,7 @@ let Ra = () => {
 
   return (
     <>
+            <CurrentDate num={0} text={'창고구역'}/>
       <div className='tableBox'>
         <table className='table'>
           <thead>

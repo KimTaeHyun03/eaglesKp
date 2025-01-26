@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './../css/tableStyle.css';
-import './../css/tableStyle1.css';
 import { useSelector } from 'react-redux';
-
+import CurrentDate from './date.js';
 let Role = () => {
   let [loading, setLoading] = useState(true);
   let [role, setRole] = useState([]);
@@ -110,13 +109,14 @@ let Role = () => {
 
   return (
     <>
+      <h2>조리 시 담당 구역</h2>
       <div className='tableBox'>
         <table className='table'>
           <thead>
             <tr>
-              <th>구역</th>
-              <th>담당</th>
-              {accessValue ? <th>비고</th> : null}
+              <th className='th'>구역</th>
+              <th className='th'>담당</th>
+              {accessValue ? <th className='th'>비고</th> : null}
             </tr>
           </thead>
           <tbody>
@@ -142,7 +142,8 @@ let Role = () => {
       
       {/*담당구역 추가(push)*/}
       {accessValue ? (
-        <div>
+        <div className='roleContainer'>
+          <p className='roleSubtitle'>구역 추가하기</p>
           <div className='rolePush'>
             <input 
             type='text' 
@@ -160,7 +161,9 @@ let Role = () => {
             }}
             ></input>
           </div>
-          <button onClick={rolePush}>구역 추가</button>
+          <button onClick={rolePush}
+          className='roleBtn'
+          >구역 추가</button>
         </div>
       ) : null}
       

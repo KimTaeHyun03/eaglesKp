@@ -1,0 +1,22 @@
+.table {
+  width: 100%; /* 테이블 전체 너비 */
+  table-layout: fixed; /* 열 너비를 고정 */
+  border-collapse: collapse; /* 테두리 합치기 */
+}
+
+.th1 {
+  width: 20%; /* 첫 번째 열 너비 */
+}
+
+.th2 {
+  width: 40%; /* 두 번째 열 너비 */
+}
+
+.th3 {
+  width: 40%; /* 세 번째 열 너비 */
+}
+
+textarea.cookInput {
+  width: 90%; /* 텍스트 영역이 셀 너비를 차지하도록 설정 */
+  resize: none; /* 텍스트 영역 크기 조정 비활성화 */
+}

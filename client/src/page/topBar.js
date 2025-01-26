@@ -75,7 +75,17 @@ let TopBar = () => {
           다음달 조리라인 관리
         </p>
 </div> : null}
-
+{accessValue ? <div>
+        <p
+          className='ladderMenuP'
+          onClick={() => {
+            setIsMenuOpen(!isMenuOpen);
+            navigate('/nextRa');
+          }}
+        >
+          창고구역 관리
+        </p>
+</div> : null}
 
         <p>
           <p className='help'>
