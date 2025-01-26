@@ -22,7 +22,7 @@ function CurrentDate({ num,text }) {
   return (
     <div>
       <h2>
-        {year}년 {month}월 {text} 테스트
+        {year}년 {month}월 {text}
       </h2>
     </div>
   );
