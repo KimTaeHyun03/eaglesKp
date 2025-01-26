@@ -7,7 +7,7 @@ import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies';
 clientsClaim();
 
 // 캐시 이름에 버전 추가
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v1.2.7';
 const RUNTIME_CACHE = `runtime-cache-${CACHE_VERSION}`;
 
 // 기존 캐시 정리
