@@ -2,6 +2,11 @@
 
 군부대 취사병의 업무를 편리하게 관리하기 위한 **PWA 웹앱**입니다.  
 조리라인 배정, 창고 담당 구역, 조리 시 담당구역을 모바일에서 손쉽게 확인하고 수정할 수 있습니다.
+---
+## screenshot
+|권한 획득 전 실행화면|권한 획득 후 실행화면|
+|-|-|
+|<img src="screenshot.gif" width="70%" alt="실행 화면">|<img src="permission_screenshot.gif" width="70%" alt="권한 획득 후 실행 화면">|
 
 ---
 
@@ -118,17 +123,6 @@ eaglesKp/
 ### `COOK` (조리라인)
 ```json
 { "역할": "주조리", "담당자": "홍길동" }
-```
-
----
-
-## 환경 변수 (.env)
-
-```env
-PORT=3030
-MONGO_URI=mongodb+srv://...
-PERMISSON={"permissonId":"아이디","permissonPw":"비밀번호"}
-REACT_APP_API_URL=https://your-domain.com/
 ```
 
 ---
