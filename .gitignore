@@ -1,25 +1,41 @@
-# Node.js 관련
+# ===== 의존성 =====
 node_modules/
-.env
-
-!.env.development
-!.env.production
-# React 관련 (client 폴더)
 client/node_modules/
 client/.pnp
-client.pnp.js
+client/.pnp.js
 
-# 테스트
-client/coverage
+# ===== 빌드 결과물 =====
+client/build/
+dist/
 
-
-# 기타
-client/.DS_Store
+# ===== 환경 변수 (비밀값 - 절대 커밋 금지) =====
+.env
+.env.*
+client/.env
 client/.env.local
 client/.env.development.local
 client/.env.test.local
 client/.env.production.local
+# 예시 파일은 올려도 됨
+!.env.example
+!client/.env.example
 
+# ===== 테스트 / 커버리지 =====
+coverage/
+client/coverage/
+
+# ===== 로그 =====
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# ===== OS =====
+.DS_Store
+client/.DS_Store
+Thumbs.db
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp

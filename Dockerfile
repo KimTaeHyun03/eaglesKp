@@ -1,21 +1,18 @@
-# Node.js 환경 설정
-FROM node:18
-
-# 작업 디렉토리 설정
-WORKDIR /app
-
-# 서버 종속성 설치
-COPY package.json package-lock.json ./
+# 1단계: React 클라이언트 빌드
+FROM node:22-slim AS client-build
+WORKDIR /app/client
+COPY client/package*.json ./
 RUN npm install
+COPY client/ ./
+RUN npm run build
 
-# 빌드된 클라이언트 복사
-COPY client/build ./client/build
-
-# 나머지 서버 코드 복사
+# 2단계: 서버 실행
+FROM node:22-slim
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --omit=dev
 COPY . .
-
-# 포트 설정
+# 1단계에서 만든 빌드 결과물 가져오기
+COPY --from=client-build /app/client/build ./client/build
 EXPOSE 3030
-
-# 서버 실행
 CMD ["node", "server.js"]
