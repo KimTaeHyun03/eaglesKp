@@ -162,6 +162,6 @@ docker run -p 3030:3030 eagleskp
 
 ## 배포
 
-- **배포 URL:** https://port-0-eagleskp-m5dahxe3d1a3c3c2.sel4.cloudtype.app/
+- **배포 URL:** https://port-0-eagleskp-docker-m5dahxe3d1a3c3c2.sel4.cloudtype.app/
 - cloudtype을 통해 Docker 컨테이너로 배포
 
